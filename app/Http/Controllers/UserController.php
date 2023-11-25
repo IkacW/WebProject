@@ -99,4 +99,12 @@ class UserController extends Controller
 
         return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
     }
+
+    public function resetPassword(){
+        return view('passwordReset.resetForm');
+    }
+
+    public function mailForm(Request $request) {
+        dd($request);
+    }
 }

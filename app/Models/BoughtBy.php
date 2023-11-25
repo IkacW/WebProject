@@ -16,7 +16,7 @@ class BoughtBy extends Model
         return $this->belongsTo(Listing::class, 'listing_id');
     }
 
-    public function boughtby() {
+    public function boughtBy() {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

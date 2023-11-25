@@ -69,6 +69,12 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 // Login User   
 Route::post('/users/authenticate', [UserController::class, 'authenticate'])->middleware('guest');
 
+// Show Reset Form
+Route::get('/reset-password', [UserController::class, 'resetPassword'])->middleware('guest');
+
+// Mail Link For Password Reset
+Route::put('/reset-password', [UserController::class, 'mailForm'])->middleware('guest');
+
 // Adding product to cart
 Route::get('/listings/addToCart/{listing}', [CartController::class, 'addToCart'])->middleware('auth');
 
