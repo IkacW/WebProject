@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\PasswordController;
 use App\Models\BoughtBy;
 
 /*
@@ -69,12 +70,6 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 // Login User   
 Route::post('/users/authenticate', [UserController::class, 'authenticate'])->middleware('guest');
 
-// Show Reset Form
-Route::get('/reset-password', [UserController::class, 'resetPassword'])->middleware('guest');
-
-// Mail Link For Password Reset
-Route::put('/reset-password', [UserController::class, 'mailForm'])->middleware('guest');
-
 // Adding product to cart
 Route::get('/listings/addToCart/{listing}', [CartController::class, 'addToCart'])->middleware('auth');
 
@@ -103,3 +98,16 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+// Show Reset Form
+Route::get('/reset-password', [PasswordController::class, 'resetPassword'])->middleware('guest');
+
+// Mail Link For Password Reset
+Route::put('/reset-password', [PasswordController::class, 'mailForm'])->middleware('guest');
+
+// Password Change Form 
+Route::get('/password-change/{token}', [PasswordController::class, 'passwordChange'])->name('password.change');
+
+// Create New Password
+Route::put('/password-change', [PasswordController::class, 'passwordChangePost']);

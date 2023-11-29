@@ -41,7 +41,7 @@
             </div>
 
             <div class="mb-4">
-                <a href="#" class="text-sm red-500 hover-a">
+                <a href="/reset-password" class="text-sm red-500 hover-a">
                     Forgot password? Reset it now!
                 </a>
             </div>

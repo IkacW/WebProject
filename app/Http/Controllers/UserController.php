@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -46,11 +50,11 @@ class UserController extends Controller
         ]);
 
         $formFields['password'] = bcrypt($formFields['password']);
-        $formFields['permission'] = 0;
+        $formFields['permission'] = 0; // basic user
 
         $user = User::create($formFields);
         Cart::create([
-            'user_id' => $formFields[$user->id]
+            'user_id' => $user->id,
         ]);
 
         auth()->login($user);
@@ -98,13 +102,5 @@ class UserController extends Controller
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
-    }
-
-    public function resetPassword(){
-        return view('passwordReset.resetForm');
-    }
-
-    public function mailForm(Request $request) {
-        dd($request);
     }
 }
