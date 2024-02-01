@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\OrderController;
 use App\Models\BoughtBy;
 
 /*
@@ -54,6 +55,9 @@ Route::get('listings/manage', [ListingController::class, 'manage'])->middleware(
 
 // Single listing 
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
+
+// Display order
+Route::get('/orders', [OrderController::class, 'index'])->middleware('auth');
 
 // Show Register/Create Form   
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');

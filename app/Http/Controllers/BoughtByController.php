@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Listing;
 use App\Models\BoughtBy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BoughtByController extends Controller
 {
@@ -31,10 +32,18 @@ class BoughtByController extends Controller
             $formFields['listing_id'] = $product_ids[$i];
             $formFields['quantity'] = $quantities[$i];
 
+            DB::beginTransaction();
+            try {
+                $listing = Listing::find($product_ids[$i])->lockForUpdate()->first(); 
+                $quantity = $listing->quantity -  $quantities[$i];
+                $listing->update(['quantity' => $quantity]);
 
-            $listing = Listing::find($product_ids[$i]); 
-            $quantity = $listing->quantity -  $quantities[$i];
-            $listing->update(['quantity' => $quantity]);
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+        
+                throw $e;
+            }
 
             BoughtBy::create($formFields);
         }
